@@ -1,0 +1,503 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');/*Inter Regular*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');/*Inter SemiBold*/
+
+*{
+    margin: 0;
+    padding: 0px;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+}
+html{
+    width: 100vw;
+}
+body{
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(240, 240, 240);
+    width: 100vw;
+}
+main{
+    width: 91vw;
+}
+/*==========LOGIN==========*/
+#acesso{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+}
+#acesso-usuario{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+#acesso-usuario h2{
+    font-size: 64px;
+    color: rgba(115, 202, 251, 1);;
+}
+#acesso-usuario label{
+    font-size: 28px;
+}
+#acesso-usuario input{
+    height: 32px;
+}
+#bt-acessar{
+    width: 150px;
+    height: 32px;
+    background-color: rgb(70, 194, 70);
+    border: none;
+    color: white; 
+}
+#bt-acessar:hover{
+    border: solid 0.5px;
+}
+/*==========LOGIN==========*/
+/*==========NAV BAR==========*/
+#nav-bar{
+    background-color: rgba(115, 202, 251, 1);
+    width: 12.8rem;
+    height: 100vh;
+}
+#titulo-sistema{
+    font-size: 28px;
+    padding: 10px;
+}
+#links-navegacao{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+#links-navegacao a{
+    color: white; 
+    font-weight: 400;
+    height: 28px;
+}
+#links-navegacao a:hover{
+    color: rgba(115, 202, 251, 1);
+    font-weight: 400;
+    background-color: white;
+    width: 11.9rem;
+    text-align: center;
+}
+#bt-sair{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 75vh;
+    width: 100px;
+    height: 24px;
+    background-color: rgba(115, 202, 251, 1);
+    border: none;
+    color: white;
+}
+#bt-sair:hover{
+    width: 100px;
+    height: 24px;
+    background-color: white;
+    color: rgba(115, 202, 251, 1);;
+    border: none;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600; 
+}
+/*==========NAV BAR==========*/
+/*==========TOP BAR==========*/
+#top-bar{
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    background-color:  white;
+
+}
+/*--------------------------------*/
+#identificacao-usuario{
+    margin-left: 40px;
+}
+#usuario{
+    padding: 5px;
+}
+#nome-usuario{
+    padding: 5px;
+}
+/*--------------------------------*/
+#usuario-id{
+    margin-left: 60px;
+}
+#id{
+    padding: 5px;
+}
+#id-usuario{
+    padding: 5px;
+}
+/*--------------------------------*/
+#permissoes{
+    margin-left: 60px;
+}
+#permisao-usuario{
+    padding: 5px;
+}
+#tipo-permissao{
+    padding: 5px;
+}
+/*--------------------------------*/
+#data-acesso{
+    margin-left: 60px;
+}
+#data{
+    padding: 5px;
+}
+#acesso-data{
+    padding: 5px;
+}
+/*==========TOP BAR==========*/
+/*==========SECTION LISTAGEM PRODUTOS==========*/
+#listagem-produtos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    background-color: white;
+    height: 550px;
+}
+#listagem-produtos h2{
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+#selecao-produtos{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 1000px; 
+}
+#selecao-visualizacao{
+    width: 180px;
+    height: 32px;
+    border: 1px solid rgb(206, 206, 206);
+    align-self: flex-start;
+    margin-bottom: 10px;
+    color: rgb(46, 46, 46);
+}
+#total-produtos{
+    align-self: flex-end;
+    margin-bottom: 10px;
+}
+#contagem-produtos{
+    font-weight: 600;
+}
+#acoes-produtos{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 60px;
+    width: 1000px; 
+    margin-bottom: 20px;
+}
+.bt-produtos{
+    width: 200px;
+    height: 32px;
+    background-color: rgba(115, 202, 251, 1);
+    border: none;
+    color: white;
+}
+.bt-produtos:hover{
+    width: 200px;
+    height: 32px;
+    background-color: rgba(115, 202, 251, 1);
+    color: rgba(15, 15, 15, 0.753);
+    border: solid 0.5px;
+    border-color: rgba(44, 44, 44, 0.753);
+    font-size: 12px;
+    font-weight: 600; 
+}
+table, th, td{
+    border: 1px solid rgb(206, 206, 206);
+    border-collapse: collapse;
+    
+}
+table{
+    min-width: 1000px;
+}
+th{
+    background-color: rgba(115, 202, 251, 1);
+    color: rgba(15, 15, 15, 0.753);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 5px;
+}
+td{
+    color: rgb(46, 46, 46);
+    font-weight: 400;
+    font-size: 14px;
+    padding: 5px; 
+    max-height: 28px;
+}
+.icone-acao{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+}
+#acao-editar:hover{
+    cursor: pointer;
+}
+#acao-deletar:hover{
+    cursor: pointer;
+}
+tr:hover{
+    background-color: rgba(194, 224, 250, 0.658);
+}
+/*==========SECTION LISTAGEM PRODUTOS==========*/
+/*==========SECTION CADASTRO PRODUTOS==========*/
+#cadastro-produtos{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    gap: 20px;
+    background-color: white;
+}
+#titulo-cadastro-produto{
+    margin-top: 20px;
+}
+#cadastro-dados-produto{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.bt-cad{
+    color: rgb(26, 199, 26);
+    background-color: transparent;
+    border: solid 0.5px;
+    border-color: rgb(26, 199, 26);
+}
+.bt-cad:hover{
+    background-color: rgb(26, 199, 26);
+    border: solid 0.5px;
+    border-color: rgb(26, 199, 26);
+}
+/*==========SECTION CADASTRO PRODUTOS==========*/
+/*==========SECTION CADASTRO REPOSICAO==========*/
+#cadastro-reposicao{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    gap: 20px;
+    background-color: white;
+}
+#titulo-cadastro-reposicao{
+    margin-top: 20px;
+}
+#cadastro-dados-reposicao{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.bt-repo{
+    color: rgb(26, 199, 26);
+    background-color: transparent;
+    border: solid 0.5px;
+    border-color: rgb(26, 199, 26);
+}
+.bt-repo:hover{
+    background-color: rgb(26, 199, 26);
+    border: solid 0.5px;
+    border-color: rgb(26, 199, 26);
+}
+/*==========SECTION CADASTRO REPOSICAO==========*/
+/*==========SECTION VISUALIZACAO PRODUTOS==========*/
+#visualizacao-atualizacao-produtos{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    gap: 20px;
+    background-color: white;
+}
+#titulo-alterar-produto{
+    margin-top: 20px;
+}
+#alteracao-dados-produto{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.bt-att{
+    color: orange;
+    background-color: transparent;
+    border: solid 0.5px;
+    border-color: orange;
+}
+.bt-att:hover{
+    background-color: orange;
+    border: solid 0.5px;
+    border-color: orange;
+}
+/*==========SECTION VISUALIZACAO PRODUTOS==========*/
+/*==========SECTION EXCLUI PRODUTO==========*/
+#exclusao-produto{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    gap: 20px;
+    background-color: white;
+}
+#titulo-exclusao-produto{
+    margin-top: 20px;
+}
+#dados-exclusao-produto{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.bt-exclusao{
+    color: red;
+    background-color: transparent;
+    border: solid 0.5px;
+    border-color: red;
+}
+.bt-exclusao:hover{
+    background-color: rgb(245, 80, 80);
+    border: solid 0.5px;
+    border-color: rgb(245, 80, 80);
+}
+/*==========SECTION EXCLUI PRODUTO==========*/
+/*==========SECTION LISTAGEM USUARIOS==========*/
+#listagem-usuarios{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    background-color: white;
+    height: 550px;
+}
+#tab-listagem-usuarios{
+    min-width: 500px;
+    align-self: flex-start;
+}
+#listagem-usuarios h2{
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+#listagem-usuarios h3{
+    margin-bottom: 10px;
+}
+#gerencia-tabela{
+    max-height: 400px;
+    overflow-y: scroll;
+}
+#gerencia-usuarios{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+#acoes-usuarios{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.bt-usuarios{
+    width: 140px;
+    height: 32px;
+    background-color: rgba(115, 202, 251, 1);
+    border: none;
+    color: white;
+}
+.bt-usuarios:hover{
+    width: 140px;
+    height: 32px;
+    background-color: rgba(115, 202, 251, 1);
+    color: rgba(15, 15, 15, 0.753);
+    border: solid 0.5px;
+    border-color: rgba(44, 44, 44, 0.753);
+    font-size: 12px;
+    font-weight: 600; 
+}
+/*==========SECTION LISTAGEM USUARIOS==========*/
+/*==========SECTION GERENCIA ACOES USUARIOS==========*/
+#gerencia-acoes-usuarios{
+    display: flex;
+    margin-top: 10px;
+    background-color: white;
+}
+#add-usuario{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+#titulo-add-usuario{
+    margin-top: 20px;
+}
+#informacoes-usuario{
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+}
+#textos-cad-usuario{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#textos-cad-usuario input{
+    height: 28px;
+}
+#selecoes-cad-usuario{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#selecoes-cad-usuario select{
+    height: 28px;
+}
+#bt-add-usuario{
+    background-color: rgb(28, 163, 28);
+}
+
+
+#atualiza-usuario{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+#titulo-atualiza-usuario{
+    margin-top: 20px;
+}
+#informacoes-usuario-atualizada{
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+}
+#textos-att-usuario{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#textos-att-usuario input{
+    height: 28px;
+}
+#selecoes-att-usuario{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#selecoes-att-usuario select{
+    height: 28px;
+}
+#bt-att-usuario{
+    background-color: rgb(28, 163, 28);
+}
+/*==========SECTION GERENCIA ACOES USUARIOS==========*/
