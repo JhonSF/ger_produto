@@ -170,7 +170,7 @@ main{
     margin-top: 40px;
     margin-bottom: 40px;
 }
-#selecao-produtos{
+#visualizacao-produtos{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
