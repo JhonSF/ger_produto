@@ -25,5 +25,5 @@ public class Usuario_Entity {
     @Column(name = "permissoes_id")
     private String permissoes;
     @Column(name = "status_usuario_id")
-    private String status;
+    private Integer status;
 }
