@@ -22,8 +22,6 @@ public class Reposicao_Produto_Entity {
     private String categoria;
     private Integer peso;
     private String fabricante;
-    private LocalDate data_Vencimento;
+    private LocalDate vencimento;
     private String status;
-    private double valor_de_Venda;
-    private Integer contagem_vencimento;
 }

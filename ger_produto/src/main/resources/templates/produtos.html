@@ -71,15 +71,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Id</td>
-                        <td>Nome</td>
-                        <td>Categoria</td>
-                        <td>Peso</td>
-                        <td>Fabricante</td>
+                    <tr th:each="p : ${produtos}">
+                        <td th:text="${p.id}"></td>
+                        <td th:text="${p.nome}"></td>
+                        <td th:text="${p.categoria}"></td>
+                        <td th:text="${p.peso}"></td>
+                        <td th:text="${p.fabricante}"></td>
                         <td class="icone-acao">
-                            <img id="acao-editar" src="img/edit.svg">
-                            <img id="acao-deletar" src="img/delete.svg">
+                            <ul>
+                                <a th:href="@{/atualizar-produto/{id}(id=${p.id})}">
+                                    <img id="acao-editar" src="img/edit.svg">
+                                </a>
+                                <a th:href="@{/deletar-produto/{id}(id=${p.id})}">
+                                    <img id="acao-deletar" src="img/delete.svg">
+                                </a>
+                            </ul>
                         </td>
                     </tr>
                 </tbody>
@@ -111,12 +117,11 @@
             </div>
         </section>
         <section id="cadastro-reposicao">
-            <h3 id="titulo-cadastro-reposicao">Cadastrar Reposiçaõ</h3>
+            <h3 id="titulo-cadastro-reposicao">Cadastrar Reposição</h3>
             <div id="cadastro-dados-reposicao">
-                <div>
-                    <label for="nome-cad-reposicao">Nome</label>
-                    <input class="nome-cad-reposicao" id="nome-cad-reposicao" type="text">
-                </div>
+                <select id="selecao-produto-cad-reposicao">
+                    <option value="0" selected>Selecione o Produto</option>
+                </select>
                 <select id="selecao-categoria-cad-reposicao">
                     <option value="0" selected>Selecione a Categoria</option>
                 </select>
@@ -126,6 +131,13 @@
                 </div>
                 <select id="selecao-fabricante-cad-reposicao">
                     <option value="0" selected>Selecione a Fabricante</option>
+                </select>
+                <div>
+                    <label for="vencimento-cad-reposicao">Vencimento</label>
+                    <input class="vencimento-cad-reposicao" id="vencimento-cad-reposicao" type="date">
+                </div>
+                <select id="selecao-status-cad-reposicao">
+                    <option value="0" selected>Selecione o Status</option>
                 </select>
             </div>
             <div id="acoes-produtos">

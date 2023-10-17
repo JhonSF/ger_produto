@@ -11,11 +11,11 @@ import lombok.Data;
 
 @Data 
 @Entity 
-@Table(name="categoria_produto") 
-public class Lista_Categoria_Entity {
+@Table(name="status_produto") 
+public class Lista_Status_Entity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String categoria;
+    private String status;
 }

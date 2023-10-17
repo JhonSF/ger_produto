@@ -4,6 +4,9 @@ $(document).ready(function () {
   const listaCategorias = "http://localhost:8080/produto/listar-categorias";
   const listaFabricantes = "http://localhost:8080/produto/listar-fabricantes";
   const adicionarProduto = "http://localhost:8080/produto/adicionar-produto";
+  const adicionarReposicao = "http://localhost:8080/produto/adicionar-reposicao";
+  const listaProduto = "http://localhost:8080/produto/listar-produtos";
+  const listaStatus = "http://localhost:8080/produto/listar-status-produto";
   
   // verificacao de login
   $("#bt-acessar").on("click", function(event){
@@ -51,16 +54,27 @@ $(document).ready(function () {
         
         let selecao_Categoria = $("#selecao-categoria-cad-reposicao");
         let selecao_Fabricante = $("#selecao-fabricante-cad-reposicao");
+        let selecao_Produto = $("#selecao-produto-cad-reposicao");
+        let selecao_Status = $("#selecao-status-cad-reposicao");
 
         let qtd_elecao_Categoria = $("#selecao-categoria-cad-reposicao option");
         let qtd_selecao_Fabricante = $("#selecao-fabricante-cad-reposicao  option");
+        let qtd_selecao_Produto = $("#selecao-produto-cad-reposicao  option");
+        let qtd_selecao_Status = $("#selecao-status-cad-reposicao  option");
         
         if(qtd_elecao_Categoria.length == 1){
           preencheCategorias(selecao_Categoria);
         }
         if(qtd_selecao_Fabricante.length == 1){
-        preencheFabricantes(selecao_Fabricante);
+          preencheFabricantes(selecao_Fabricante);
         }
+        if(qtd_selecao_Produto.length == 1){
+          preencheProdutos(selecao_Produto);
+        }
+        if(qtd_selecao_Status.length == 1){
+          preencheStatus(selecao_Status);
+        }
+
     })
 
   $("#bt-cancelar-repo").on("click", function(event){
@@ -87,7 +101,7 @@ $(document).ready(function () {
       .then(categorias=>{
         console.log("Categorias carregadas "+categorias.length);
         $.each(categorias, function (i, cat) {                    
-        $(selecao).append('<option value=' + cat.id+ '>' + cat.nome + '</option>');
+        $(selecao).append('<option value=' + cat.id+ '>' + cat.categoria + '</option>');
         });
       })
     }
@@ -96,9 +110,30 @@ $(document).ready(function () {
       fetch(listaFabricantes)
       .then(res=>res.json())
       .then(fabricantes=>{
-        console.log("Categorias carregadas "+fabricantes.length);
+        console.log("Fabricantes carregadas "+fabricantes.length);
         $.each(fabricantes, function (i, fab) {                    
-        $(selecao).append('<option value=' + fab.id+ '>' + fab.nome + '</option>');
+        $(selecao).append('<option value=' + fab.id+ '>' + fab.fabricante + '</option>');
+        });
+      })
+    }
+
+    function preencheProdutos(selecao){
+      fetch(listaProduto)
+      .then(res=>res.json())
+      .then(produtos=>{
+        console.log("Produtos carregados "+produtos.length);
+        $.each(produtos, function (i, pdt) {                    
+        $(selecao).append('<option value=' + pdt.id+ '>' + pdt.nome + '</option>');
+        });
+      })
+    }
+    function preencheStatus(selecao){
+      fetch(listaStatus)
+      .then(res=>res.json())
+      .then(status=>{
+        console.log("Status carregados "+status.length);
+        $.each(status, function (i, sts) {                    
+        $(selecao).append('<option value=' + sts.id+ '>' + sts.status + '</option>');
         });
       })
     }
@@ -133,13 +168,53 @@ $(document).ready(function () {
         },
       }); 
   })
+    // cadastro de reposicao produto - POST
+  $("#bt-cad-repo").on("click", function(event){
+
+    let  nome = $("#selecao-produto-cad-reposicao option:selected").text();
+    let categoria = $("#selecao-categoria-cad-reposicao option:selected").text();
+    let peso = $("#peso-cad-reposicao").val();
+    let fabricante = $("#selecao-fabricante-cad-reposicao option:selected").text();
+    let vencimento = $("#vencimento-cad-reposicao").val();
+    let status = $("#selecao-status-cad-reposicao option:selected").text();
+
+    let reposicao = {
+      id: 'null',
+      nome: nome,
+      categoria: categoria,
+      peso: peso,
+      fabricante: fabricante,
+      vencimento: vencimento,
+      status: status
+    };
+    console.log(reposicao);
+      $.ajax({
+        url: adicionarReposicao,
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(reposicao),
+        success: function (data) {
+          alert("Reposição cadastrada!");
+          limpaCamposCadReposicao();
+        },
+        error: function () {
+          alert("Não foi possível cadastrar a reposição.");
+        },
+      });
+  })
 
   function limpaCamposCadastro(){
-
     $("#nome-cad-produto").val("");
     $("#selecao-categoria-cad-produto").prop('selectedIndex', 0);
     $("#peso-cad-produto").val("");
     $("#selecao-fabricante-cad-produto").prop('selectedIndex', 0);
-    
+  }
+  function limpaCamposCadReposicao(){
+    $("#selecao-produto-cad-reposicao").prop('selectedIndex', 0);
+    $("#selecao-categoria-cad-reposicao").prop('selectedIndex', 0);
+    $("#peso-cad-reposicao").val("");
+    $("#selecao-fabricante-cad-reposicao").prop('selectedIndex', 0);
+    $("#vencimento-cad-reposicao").val("");
+    $("#selecao-status-cad-reposicao").prop('selectedIndex', 0);
   }
 }); //fim da funcao jquery

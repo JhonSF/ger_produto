@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 /* @author - Jonathas */
 
 @Repository
-public interface Produto_Repository extends JpaRepository <Produto_Entity, Integer>{
-   
+public interface Lista_Status_Repository extends JpaRepository <Lista_Status_Entity, Integer>{
+    
 }

@@ -40,7 +40,7 @@ public class Produto_Service {
         return p;
     }
     
-    public List<Produto_Entity> lista_Produto(){
+    public List<Produto_Entity> lista_Produtos(){
         
         return pdt_Rep.findAll();
     }

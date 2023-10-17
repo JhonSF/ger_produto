@@ -20,10 +20,7 @@ public class Usuario_Entity {
     private Integer id;
     private String nome;
     private String senha;
-    @Column(name = "cargos_id")
     private String cargo;
-    @Column(name = "permissoes_id")
-    private String permissoes;
-    @Column(name = "status_usuario_id")
+    private Integer permissoes;
     private Integer status;
 }

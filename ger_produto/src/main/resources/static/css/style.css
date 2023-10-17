@@ -299,6 +299,7 @@ tr:hover{
 #cadastro-dados-reposicao{
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 10px;
     margin-bottom: 20px;
 }

@@ -17,5 +17,5 @@ public class Lista_Fabricantes_Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nome;
+    private String fabricante;
 }

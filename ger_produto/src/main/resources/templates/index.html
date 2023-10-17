@@ -66,22 +66,21 @@
                         <th>Fabricante</th>
                         <th>Vencimento</th>
                         <th>Status</th>
-                        <th>Valor</th>
                         <th>Vencimento em</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Id</td>
-                        <td>Nome</td>
-                        <td>Categoria</td>
-                        <td>Peso</td>
-                        <td>Fabricante</td>
-                        <td>Vencimento</td>
-                        <td>Status</td>
-                        <td>Valor</td>
-                        <td>Vencimento em</td>
+                    <tr th:each="v : ${vencimentos}">
+                        <td th:text="${v.id}"></td>
+                        <td th:text="${v.nome}"></td>
+                        <td th:text="${v.categoria}"></td>
+                        <td th:text="${v.peso}"></td>
+                        <td th:text="${v.fabricante}"></td>
+                        <td th:text="${v.vencimento}"></td>
+                        <td th:text="${v.status}"></td>
+                        <td th:text="${v.contagem_vencimento}">
+                        </td>
                         <td>Ações</td>
                     </tr>
                 </tbody>
