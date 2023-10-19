@@ -7,6 +7,11 @@ $(document).ready(function () {
   const adicionarReposicao = "http://localhost:8080/produto/adicionar-reposicao";
   const listaProduto = "http://localhost:8080/produto/listar-produtos";
   const listaStatus = "http://localhost:8080/produto/listar-status-produto";
+  const adicionaUsuario = "http://localhost:8080/usuarios/novo-usuario";
+  const listaUsuario = "http://localhost:8080/usuarios/listar-usuarios";
+  const listaCargos = "http://localhost:8080/usuarios/listar-cargos";
+  const listaPermissoes = "http://localhost:8080/usuarios/listar-permissoes";
+  const listaStatusUsuario = "http://localhost:8080/usuarios/listar-status-usuario";
   
   // verificacao de login
   $("#bt-acessar").on("click", function(event){
@@ -72,7 +77,7 @@ $(document).ready(function () {
           preencheProdutos(selecao_Produto);
         }
         if(qtd_selecao_Status.length == 1){
-          preencheStatus(selecao_Status);
+          preencheStatusProduto(selecao_Status);
         }
 
     })
@@ -127,7 +132,8 @@ $(document).ready(function () {
         });
       })
     }
-    function preencheStatus(selecao){
+
+    function preencheStatusProduto(selecao){
       fetch(listaStatus)
       .then(res=>res.json())
       .then(status=>{
@@ -217,4 +223,68 @@ $(document).ready(function () {
     $("#vencimento-cad-reposicao").val("");
     $("#selecao-status-cad-reposicao").prop('selectedIndex', 0);
   }
+ 
 }); //fim da funcao jquery
+
+var tabela = document.getElementById("tab-listagem-vencimentos");
+var linhas = tabela.getElementsByTagName("tr");
+console.log(tabela+"\n"+linha+"js");
+
+
+var contReposicao = document.querySelector('#contagem-produtos');
+contReposicao.textContent = linhas.length-1;
+
+for(var i = 0; i < linhas.length; i++){
+	var linha = linhas[i];
+  linha.addEventListener("click", function(){
+  	//Adicionar ao atual
+		selLinha(this, false); //Selecione apenas um
+                //selLinha(this, true); //Selecione quantos quiser
+	});
+}
+
+/**
+Caso passe true, você pode selecionar multiplas linhas.
+Caso passe false, você só pode selecionar uma linha por vez.
+**/
+function selLinha(linha, multiplos){
+  if(!multiplos){
+  	var linhas = linha.parentElement.getElementsByTagName("tr");
+        for(var i = 0; i < linhas.length; i++){
+           var linha_ = linhas[i];
+           linha_.classList.remove("selecionado");    
+        }
+  }
+  linha.classList.toggle("selecionado");
+}
+
+/**
+Exemplo de como capturar os dados
+**/
+var btnVisualizar = document.getElementById("visualizarDados");
+
+btnVisualizar.addEventListener("click", function(){
+	var selecionados = tabela.getElementsByClassName("selecionado");
+  //Verificar se está selecionado
+  if(selecionados.length < 1){
+  	alert("JS\nSelecione pelo menos uma linha");
+    return false;
+  }
+  
+  var dados = "";
+  
+  for(var i = 0; i < selecionados.length; i++){
+  	var selecionado = selecionados[i];
+    selecionado = selecionado.getElementsByTagName("td");
+    dados += "ID: " + selecionado[0].innerHTML + "\n"+ 
+             "Nome: " + selecionado[1].innerHTML + "\n"+ 
+             "Categoria: " + selecionado[2].innerHTML + "\n"+ 
+             "Peso: " + selecionado[3].innerHTML + "\n"+ 
+             "Fabricante: " + selecionado[4].innerHTML + "\n"+ 
+             "Vencimento: " + selecionado[5].innerHTML + "\n"+ 
+             "Status: " + selecionado[6].innerHTML + "\n"+
+             "Vecimento em: " + selecionado[7].innerHTML + " dias\n";
+  }
+  
+  console.log(dados);
+});

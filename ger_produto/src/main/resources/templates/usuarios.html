@@ -59,12 +59,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Id</td>
-                                <td>Nome</td>
-                                <td>Cargo</td>
-                                <td>Permissões</td>
-                                <td>Status</td>
+                            <tr th:each="u : ${usuarios}">
+                                <td th:text="${u.id}"></td>
+                                <td th:text="${u.nome}"></td>
+                                <td th:text="${u.cargo}"></td>
+                                <td th:text="${u.permissoes}"></td>
+                                <td th:text="${u.status}"></td>
                             </tr>
                         </tbody>
                     </table>

@@ -1,8 +1,10 @@
 package br.com.stdev.ger_produto.controller;
 
 /* @author - Jonathas */
+import br.com.stdev.ger_produto.data.Usuario_Entity;
 import br.com.stdev.ger_produto.data.Vencimentos_Entity;
 import br.com.stdev.ger_produto.service.Produto_Service;
+import br.com.stdev.ger_produto.service.Usuario_Service;
 import br.com.stdev.ger_produto.service.Vencimentos_Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -21,6 +23,9 @@ public class WebController {
     @Autowired
     Vencimentos_Service vct_Serv;
     
+    @Autowired
+    Usuario_Service u_Serv;
+    
     @GetMapping("/login")
     public String login(){
         return "login";
@@ -33,14 +38,15 @@ public class WebController {
         for(int i = 0; i < lista_vct.size(); i++){
           int data_Verificada = (int) ChronoUnit.DAYS.between(LocalDate.now(),LocalDate.from(lista_vct.get(i).getVencimento()));
             lista_vct.get(i).setContagem_vencimento(data_Verificada);
-            System.out.println(data_Verificada);
         }
         m.addAttribute("vencimentos", lista_vct);
         return "index";
     }
     
     @GetMapping("/usuarios")
-    public String usuarios(){
+    public String usuarios(Model m){
+        List<Usuario_Entity> lista_Usuarios = u_Serv.lista_Usuario();
+        m.addAttribute("usuarios", lista_Usuarios);
         return "usuarios";
     }
     
@@ -48,5 +54,6 @@ public class WebController {
     public String lista_Produto(Model m){
         m.addAttribute("produtos", p_Serv.lista_Produtos());
         return "produtos";
+        //
     }
 }   
