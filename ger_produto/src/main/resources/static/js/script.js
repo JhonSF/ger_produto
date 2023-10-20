@@ -28,7 +28,7 @@ $(document).ready(function () {
   $("#bt-sair").on("click", function(event){
         $("#link-saida").attr('href','/login');
     })
-
+/*============================================================== */
   $("#bt-cadastrar-pdt").on("click", function(event){
         $("#cadastro-produtos").css('display','flex');
         
@@ -62,12 +62,12 @@ $(document).ready(function () {
         let selecao_Produto = $("#selecao-produto-cad-reposicao");
         let selecao_Status = $("#selecao-status-cad-reposicao");
 
-        let qtd_elecao_Categoria = $("#selecao-categoria-cad-reposicao option");
+        let qtd_selecao_Categoria = $("#selecao-categoria-cad-reposicao option");
         let qtd_selecao_Fabricante = $("#selecao-fabricante-cad-reposicao  option");
         let qtd_selecao_Produto = $("#selecao-produto-cad-reposicao  option");
         let qtd_selecao_Status = $("#selecao-status-cad-reposicao  option");
         
-        if(qtd_elecao_Categoria.length == 1){
+        if(qtd_selecao_Categoria.length == 1){
           preencheCategorias(selecao_Categoria);
         }
         if(qtd_selecao_Fabricante.length == 1){
@@ -85,21 +85,44 @@ $(document).ready(function () {
   $("#bt-cancelar-repo").on("click", function(event){
         $("#cadastro-reposicao").css('display','none');
     })
-  
+
+  /*============================================================== */
     $("#bt-adiciona-usuario").on("click", function(event){
-      $("#add-usuario").css('display','flex');
+       $("#add-usuario").css('display','flex');
+        
+        $("#atualiza-usuario").css('display','none');
+
+        let selecao_Cargo = $("#selecao-cargo");
+        let selecao_Permissoes = $("#selecao-permissao");
+        let selecao_Status_Usuarios = $("#selecao-status");
+
+        let qtd_selecao_Cargo = $("#selecao-cargo").find("option");
+        let qtd_selecao_Permissoes = $("#selecao-permissao").find("option");
+        let qtd_selecao_Status_Usuarios = $("#selecao-status").find("option");
+         
+        if(qtd_selecao_Cargo.length == 1){
+         preencheCargo(selecao_Cargo);
+        }
+        if(qtd_selecao_Permissoes.length == 1){
+          preenchePermissoes(selecao_Permissoes);
+        }
+        if(qtd_selecao_Status_Usuarios.length == 1){
+          preencheStatusUsuario(selecao_Status_Usuarios);
+        }
     })
     $("#bt-cancelar-adicao").on("click", function(event){
       $("#add-usuario").css('display','none');
     })
 
     $("#bt-altera-usuario").on("click", function(event){
-      $("#atualiza-usuario").css('display','flex');
+      $("#add-usuario").css('display','none');
+        
+        $("#atualiza-usuario").css('display','flex');
     })
     $("#bt-cancelar-att").on("click", function(event){
       $("#atualiza-usuario").css('display','none');
     })
-
+/*============================================================== */
     function preencheCategorias(selecao){
       fetch(listaCategorias)
       .then(res=>res.json())
@@ -140,6 +163,39 @@ $(document).ready(function () {
         console.log("Status carregados "+status.length);
         $.each(status, function (i, sts) {                    
         $(selecao).append('<option value=' + sts.id+ '>' + sts.status + '</option>');
+        });
+      })
+    }
+
+    function preencheCargo(selecao){
+      fetch(listaCargos)
+      .then(res=>res.json())
+      .then(cargos=>{
+        console.log("Cargos carregados "+cargos.length);
+        $.each(cargos, function (i, c) {                    
+        $(selecao).append('<option value=' + c.id+ '>' + c.cargo + '</option>');
+        });
+      })
+    }
+
+    function preenchePermissoes(selecao){
+      fetch(listaPermissoes)
+      .then(res=>res.json())
+      .then(permissoes=>{
+        console.log("Permissoes carregadas "+permissoes.length);
+        $.each(permissoes, function (i, p) {                    
+        $(selecao).append('<option value=' + p.id+ '>' + p.permissoes + '</option>');
+        });
+      })
+    }
+
+    function preencheStatusUsuario(selecao){
+      fetch(listaStatusUsuario)
+      .then(res=>res.json())
+      .then(statusUsuario=>{
+        console.log("Status carregados "+statusUsuario.length);
+        $.each(statusUsuario, function (i, su) {                    
+        $(selecao).append('<option value=' + su.id+ '>' + su.status + '</option>');
         });
       })
     }
@@ -208,6 +264,50 @@ $(document).ready(function () {
         },
       });
   })
+  
+  // cadastro de usuario - POST
+  $("#bt-add-usuario").on("click", function(event){
+
+    let  nome = $("#nome-usuarios").val();
+    let senha = $("#senha-produto").val();
+    let confirmaSenha = $("#confirmacao-senha").val();;
+    let cargo = $("#selecao-cargo option:selected").text();
+    let permissao = $("#selecao-permissao option:selected").text();
+    let status = $("#selecao-status option:selected").text();
+
+    $("#selecao-cargo").prop('selectedIndex', 0);
+    $("#selecao-permissao").prop('selectedIndex', 0);
+    $("#selecao-status").prop('selectedIndex', 0);
+
+    if(senha == confirmaSenha){
+
+    let usuario = {
+      id: 'null',
+      nome: nome,
+      senha: senha,
+      cargo: cargo,
+      permissoes: permissao,
+      status: status
+    };
+    console.log(usuario);
+    $.ajax({
+      url: adicionaUsuario,
+      method: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(usuario),
+      success: function (data) {
+        alert("Usuario cadastrado!");
+        limpaCamposCadUsuario();
+      },
+      error: function () {
+        alert("Não foi possível o usuario.");
+      },
+    });
+     limpaCamposCadUsuario();
+    }else{
+      alert("As senhas não são iguais");
+    }
+  })
 
   function limpaCamposCadastro(){
     $("#nome-cad-produto").val("");
@@ -223,68 +323,13 @@ $(document).ready(function () {
     $("#vencimento-cad-reposicao").val("");
     $("#selecao-status-cad-reposicao").prop('selectedIndex', 0);
   }
+  function limpaCamposCadUsuario(){
+    $("#selecao-cargo").prop('selectedIndex', 0);
+    $("#selecao-permissao").prop('selectedIndex', 0);
+    $("#selecao-status").prop('selectedIndex', 0);
+    $("#nome-usuarios").val("");
+    $("#senha-produto").val("");
+    $("#confirmacao-senha").val("");
+  }
  
 }); //fim da funcao jquery
-
-var tabela = document.getElementById("tab-listagem-vencimentos");
-var linhas = tabela.getElementsByTagName("tr");
-console.log(tabela+"\n"+linha+"js");
-
-
-var contReposicao = document.querySelector('#contagem-produtos');
-contReposicao.textContent = linhas.length-1;
-
-for(var i = 0; i < linhas.length; i++){
-	var linha = linhas[i];
-  linha.addEventListener("click", function(){
-  	//Adicionar ao atual
-		selLinha(this, false); //Selecione apenas um
-                //selLinha(this, true); //Selecione quantos quiser
-	});
-}
-
-/**
-Caso passe true, você pode selecionar multiplas linhas.
-Caso passe false, você só pode selecionar uma linha por vez.
-**/
-function selLinha(linha, multiplos){
-  if(!multiplos){
-  	var linhas = linha.parentElement.getElementsByTagName("tr");
-        for(var i = 0; i < linhas.length; i++){
-           var linha_ = linhas[i];
-           linha_.classList.remove("selecionado");    
-        }
-  }
-  linha.classList.toggle("selecionado");
-}
-
-/**
-Exemplo de como capturar os dados
-**/
-var btnVisualizar = document.getElementById("visualizarDados");
-
-btnVisualizar.addEventListener("click", function(){
-	var selecionados = tabela.getElementsByClassName("selecionado");
-  //Verificar se está selecionado
-  if(selecionados.length < 1){
-  	alert("JS\nSelecione pelo menos uma linha");
-    return false;
-  }
-  
-  var dados = "";
-  
-  for(var i = 0; i < selecionados.length; i++){
-  	var selecionado = selecionados[i];
-    selecionado = selecionado.getElementsByTagName("td");
-    dados += "ID: " + selecionado[0].innerHTML + "\n"+ 
-             "Nome: " + selecionado[1].innerHTML + "\n"+ 
-             "Categoria: " + selecionado[2].innerHTML + "\n"+ 
-             "Peso: " + selecionado[3].innerHTML + "\n"+ 
-             "Fabricante: " + selecionado[4].innerHTML + "\n"+ 
-             "Vencimento: " + selecionado[5].innerHTML + "\n"+ 
-             "Status: " + selecionado[6].innerHTML + "\n"+
-             "Vecimento em: " + selecionado[7].innerHTML + " dias\n";
-  }
-  
-  console.log(dados);
-});
