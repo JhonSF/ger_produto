@@ -252,6 +252,11 @@ td{
 }
 tr:hover{
     background-color: rgba(194, 224, 250, 0.658);
+    cursor: pointer;
+}
+
+#tab-listagem-usuarios tr.selecionado td{
+    background-color: rgba(194, 224, 250, 0.658);
 }
 /*==========SECTION LISTAGEM PRODUTOS==========*/
 /*==========SECTION CADASTRO PRODUTOS==========*/

@@ -58,14 +58,8 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr th:each="u : ${usuarios}">
-                                <td th:text="${u.id}"></td>
-                                <td th:text="${u.nome}"></td>
-                                <td th:text="${u.cargo}"></td>
-                                <td th:text="${u.permissoes}"></td>
-                                <td th:text="${u.status}"></td>
-                            </tr>
+                        <tbody id="tbody">
+
                         </tbody>
                     </table>
                 </div>
@@ -76,6 +70,7 @@
                     <button class="bt-usuarios" id="bt-altera-usuario">Alterar Dados</button>
                     <button class="bt-usuarios" id="bt-inativo-usuario">Inativar Usuário</button>
                     <button class="bt-usuarios" id="bt-ativo-usuario">Ativar Usuário</button>
+                    <button class="bt-usuarios" id="bt-visualizar-usuario">Ver Dados</button>
                 </div>
             </div>
 
@@ -100,13 +95,13 @@
                     </div>
                     <div id="selecoes-cad-usuario">
                         <select id="selecao-cargo">
-                            <option value="Valor 0" selected>Selecione o Cargo</option>
+                            <option value="0" selected>Selecione o Cargo</option>
                         </select>
                         <select id="selecao-permissao">
-                            <option value="Valor 0" selected>Selecione a Permissão</option>
+                            <option value="0" selected>Selecione a Permissão</option>
                         </select>
                         <select id="selecao-status">
-                            <option value="Valor 0" selected>Selecione o Status</option>
+                            <option value="0" selected>Selecione o Status</option>
                         </select>
                     </div>
                 </div>

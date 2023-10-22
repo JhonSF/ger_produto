@@ -199,7 +199,36 @@ $(document).ready(function () {
         });
       })
     }
+    //listando usuarios sem duplicar as lin
+    $("#bt-listar-usuario").on("click", function(event){
+      console.log($("#tab-listagem-usuarios tbody").find("tr").length);
+      if($("#tab-listagem-usuarios tbody").find("tr").length == 0){
+      preencheTabelaUsuarios();
+    }else{
+      $("#tab-listagem-usuarios tbody").find("tr").remove();
+      preencheTabelaUsuarios();
+    }
+    })
+    //preenchendo tabela de Usuarios
+    function preencheTabelaUsuarios(){
+      fetch(listaUsuario)
+      .then(res=>res.json())
+      .then(listaUsuarios=>{
+        console.log("Qtd de Usuarios "+listaUsuarios.length);
+        $.each(listaUsuarios, function (i) {                   
+        $("#tab-listagem-usuarios").append("<tr>"+
+        "<td>"+listaUsuarios[i].id+"</td>"
+        +"<td>"+listaUsuarios[i].nome+"</td>"
+        +"<td>"+listaUsuarios[i].cargo+"</td>"
+        +"<td>"+listaUsuarios[i].permissoes+"</td>"
+        +"<td>"+listaUsuarios[i].status+"</td>"
+        +"</tr>");
+        });
+      })
+    }
+    // obtendo dados de Usuario
     
+
     // cadastro de produto - POST
   $("#bt-cad-pdt").on("click", function(event){
 
@@ -270,43 +299,60 @@ $(document).ready(function () {
 
     let  nome = $("#nome-usuarios").val();
     let senha = $("#senha-produto").val();
-    let confirmaSenha = $("#confirmacao-senha").val();;
+    let confirmaSenha = $("#confirmacao-senha").val();
     let cargo = $("#selecao-cargo option:selected").text();
     let permissao = $("#selecao-permissao option:selected").text();
     let status = $("#selecao-status option:selected").text();
 
-    $("#selecao-cargo").prop('selectedIndex', 0);
-    $("#selecao-permissao").prop('selectedIndex', 0);
-    $("#selecao-status").prop('selectedIndex', 0);
+    //$("#selecao-cargo").prop('selectedIndex', 0);
+    //$("#selecao-permissao").prop('selectedIndex', 0);
+   // $("#selecao-status").prop('selectedIndex', 0);
 
+   if(nome ===""){
+    alert("Por favor preencha o nome")
+   }else{
     if(senha == confirmaSenha){
-
-    let usuario = {
-      id: 'null',
-      nome: nome,
-      senha: senha,
-      cargo: cargo,
-      permissoes: permissao,
-      status: status
-    };
-    console.log(usuario);
-    $.ajax({
-      url: adicionaUsuario,
-      method: "POST",
-      contentType: "application/json",
-      data: JSON.stringify(usuario),
-      success: function (data) {
-        alert("Usuario cadastrado!");
-        limpaCamposCadUsuario();
-      },
-      error: function () {
-        alert("Não foi possível o usuario.");
-      },
-    });
-     limpaCamposCadUsuario();
-    }else{
-      alert("As senhas não são iguais");
+      if($("#nome-usuarios").val() === "" || $("#senha-produto").val() ==="" ||$("#confirmacao-senha").val() ==="" ){
+        alert("Por favor Preencha os campos faltantes");
+      }
+      else{
+          if($("#selecao-cargo option:selected").val() === "0" || $("#selecao-permissao option:selected").val() === "0" || $("#selecao-status option:selected").val() ==="0"){
+           console.log($("#selecao-cargo option:selected").val());
+           console.log($("#selecao-permissao option:selected").val());
+           console.log($("#selecao-status option:selected").val());
+            alert("Por favor selecione todas as opções");
+          }
+          else{
+            let usuario = {
+              id: 'null',
+              nome: nome,
+              senha: senha,
+              cargo: cargo,
+              permissoes: permissao,
+              status: status
+            };
+            console.log(usuario);
+            $.ajax({
+              url: adicionaUsuario,
+              method: "POST",
+              contentType: "application/json",
+              data: JSON.stringify(usuario),
+              success: function (data) {
+                alert("Usuario cadastrado!");
+                limpaCamposCadUsuario();
+                $("#add-usuario").css('display','none');
+              },
+              error: function () {
+                alert("Não foi possível cadastrar o usuario.");
+              },
+            });
+        }
+      }
     }
+    else{
+      alert("As senhas não são iguais");
+    }  
+   }
   })
 
   function limpaCamposCadastro(){
@@ -333,3 +379,67 @@ $(document).ready(function () {
   }
  
 }); //fim da funcao jquery
+
+var tabelaUsuarios = document.getElementById("tab-listagem-usuarios");
+
+tabelaUsuarios.addEventListener("click", selecionarLinha);
+
+function selecionarLinha(){
+  
+  var tabela = document.getElementById("tab-listagem-usuarios");
+  var linhasTabUsuario = tabela.getElementsByTagName("tr");
+
+  for(var i = 0; i < linhasTabUsuario.length; i ++){
+    var linha = linhasTabUsuario[i];
+
+    linha.addEventListener("click", function(){
+      linhaSelecionada(this, false);
+    });
+  }
+
+  function linhaSelecionada(linha){
+    var linhas = linha.parentElement.getElementsByTagName("tr");
+
+    for(var i = 0; i < linhas.length; i ++){
+      var linhaAux = linhas[i];
+      linhaAux.classList.remove("selecionado");
+    }
+    linha.classList.toggle("selecionado");
+  }
+}
+
+//capturar os dados da tabela usuario
+var linhasTabUsuario = tabelaUsuarios.getElementsByTagName("tr");
+
+var btnVisualizar = document.getElementById("bt-visualizar-usuario");
+
+btnVisualizar.addEventListener("click", function(){
+	var selecionados = tabelaUsuarios.getElementsByClassName("selecionado");
+  //Verificar se está selecionado
+  if(selecionados.length < 1){
+  	alert("Selecione pelo menos uma linha");
+    return false;
+  }
+  
+  var usuarioAux = "";
+  var usuario;
+  
+  for(var i = 0; i < selecionados.length; i++){
+  	var selecionado = selecionados[i];
+    selecionado = selecionado.getElementsByTagName("td");
+    usuarioAux += "Id: " + selecionado[0].innerHTML + "\n"+ 
+             "Nome: " + selecionado[1].innerHTML + "\n"+ 
+             "Cargo: " + selecionado[2].innerHTML + "\n"+ 
+             "Permissões: " + selecionado[3].innerHTML + "\n"+
+             "Status: " + selecionado[4].innerHTML + "\n";
+    usuario ={
+      id:selecionado[0].innerHTML,
+      nome:selecionado[1].innerHTML,
+      cargo:selecionado[2].innerHTML,
+      permissões:selecionado[3].innerHTML,
+      status:selecionado[4].innerHTML
+    }
+  }
+  console.log(usuarioAux);
+  
+});
