@@ -1,11 +1,12 @@
 $(document).ready(function () {
   
-  //links request
+  //endpoints
   const listaCategorias = "http://localhost:8080/produto/listar-categorias";
   const listaFabricantes = "http://localhost:8080/produto/listar-fabricantes";
   const adicionarProduto = "http://localhost:8080/produto/adicionar-produto";
   const adicionarReposicao = "http://localhost:8080/produto/adicionar-reposicao";
   const listaProduto = "http://localhost:8080/produto/listar-produtos";
+  const listaVencimentos = "http://localhost:8080/produto/listar-vencimentos";
   const listaStatus = "http://localhost:8080/produto/listar-status-produto";
   const adicionaUsuario = "http://localhost:8080/usuarios/novo-usuario";
   const listaUsuario = "http://localhost:8080/usuarios/listar-usuarios";
@@ -13,7 +14,7 @@ $(document).ready(function () {
   const listaPermissoes = "http://localhost:8080/usuarios/listar-permissoes";
   const listaStatusUsuario = "http://localhost:8080/usuarios/listar-status-usuario";
   
-  // verificacao de login
+ /* // verificacao de login
   $("#bt-acessar").on("click", function(event){
     const usuario = $("#usuario-login").val();
     const senha = $("#senha-login").val();
@@ -29,6 +30,8 @@ $(document).ready(function () {
         $("#link-saida").attr('href','/login');
     })
 /*============================================================== */
+  preencheTabelaVencimentos();
+  preencheTabelaProdutos();
   $("#bt-cadastrar-pdt").on("click", function(event){
         $("#cadastro-produtos").css('display','flex');
         
@@ -199,7 +202,7 @@ $(document).ready(function () {
         });
       })
     }
-    //listando usuarios sem duplicar as lin
+    //listando usuarios sem duplicar as linnhas
     $("#bt-listar-usuario").on("click", function(event){
       console.log($("#tab-listagem-usuarios tbody").find("tr").length);
       if($("#tab-listagem-usuarios tbody").find("tr").length == 0){
@@ -207,6 +210,16 @@ $(document).ready(function () {
     }else{
       $("#tab-listagem-usuarios tbody").find("tr").remove();
       preencheTabelaUsuarios();
+    }
+    })
+    //listando produtos sem duplicar as linhas
+    $("#bt-listar-pdt").on("click", function(event){
+      console.log($("#tab-listagem-produtos tbody").find("tr").length);
+      if($("#tab-listagem-produtos tbody").find("tr").length == 0){
+      preencheTabelaProdutos();
+    }else{
+      $("#tab-listagem-produtos tbody").find("tr").remove();
+      preencheTabelaProdutos();
     }
     })
     //preenchendo tabela de Usuarios
@@ -226,6 +239,54 @@ $(document).ready(function () {
         });
       })
     }
+    //preenchendo tabela de Vencimentos
+    function preencheTabelaVencimentos(){
+      fetch(listaVencimentos)
+      .then(res=>res.json())
+      .then(listaVencimentos=>{
+        console.log("Qtd de Vencimentos "+listaVencimentos.length);
+        $.each(listaVencimentos, function (i) {                   
+        $("#tab-listagem-vencimentos").append("<tr id='vencimento'>"+
+        "<td class='id'>"+listaVencimentos[i].id+"</td>"
+        +"<td class='nome'>"+listaVencimentos[i].nome+"</td>"
+        +"<td class='categoria'>"+listaVencimentos[i].categoria+"</td>"
+        +"<td class='peso'>"+listaVencimentos[i].peso+"</td>"
+        +"<td class='fabricante'>"+listaVencimentos[i].fabricante+"</td>"
+        +"<td class='vencimento'>"+listaVencimentos[i].vencimento+"</td>"
+        +"<td class='status'>"+listaVencimentos[i].status+"</td>"
+        +"<td class='contagem_vencimento'>"+listaVencimentos[i].contagem_vencimento+" dias"+"</td>"
+        +"</tr>");
+        });
+        if(listaVencimentos.length < 10){
+          $("#contagem-vencimentos").text("0"+listaVencimentos.length);
+        }else{
+          $("#contagem-vencimentos").text(listaVencimentos.length);
+        }
+      })
+    }
+    //preenchendo tabela de Produtos
+    function preencheTabelaProdutos(){
+      fetch(listaProduto)
+      .then(res=>res.json())
+      .then(listaProdutos=>{
+        console.log("Qtd de Produtos "+listaProdutos.length);
+        $.each(listaProdutos, function (i) {                   
+        $("#tab-listagem-produtos").append("<tr>"+
+        "<td>"+listaProdutos[i].id+"</td>"
+        +"<td>"+listaProdutos[i].nome+"</td>"
+        +"<td>"+listaProdutos[i].categoria+"</td>"
+        +"<td>"+listaProdutos[i].peso+"</td>"
+        +"<td>"+listaProdutos[i].fabricante+"</td>"
+        +"<td>"+"Ações"+"</td>"
+        +"</tr>");
+        });
+        if(listaProdutos.length < 10){
+          $("#contagem-produtos").text("0"+listaProdutos.length);
+        }else{
+          $("#contagem-produtos").text(listaProdutos.length);
+        }
+      })
+    }
     // obtendo dados de Usuario
     
 
@@ -236,28 +297,37 @@ $(document).ready(function () {
     let categoria = $("#selecao-categoria-cad-produto").val();
     let peso = $("#peso-cad-produto").val();
     let fabricante = $("#selecao-fabricante-cad-produto").val();
-
-    let produto = {
-      id: 'null',
-      nome: nome,
-      categoria: categoria,
-      peso: peso,
-      fabricante: fabricante
-    };
-    console.log(produto);
-      $.ajax({
-        url: adicionarProduto,
-        method: "POST",
-        contentType: "application/json",
-        data: JSON.stringify(produto),
-        success: function (data) {
-          alert("Produto cadastrado!");
-          limpaCamposCadastro();
-        },
-        error: function () {
-          alert("Não foi possível cadastrar o produto.");
-        },
-      }); 
+    if($("#nome-cad-produto").val() === "" || $("#peso-cad-produto").val() === ""){
+      alert("Por favor preencha os campos nome e peso.");
+    }else{
+      if($("#selecao-categoria-cad-produto option:selected").val() === "0" || $("#selecao-fabricante-cad-produto option:selected").val() === "0"){
+        alert("Por favor selecionar todas as seleções; categoria e fabricante");
+      }else{
+        let produto = {
+          id: 'null',
+          nome: nome,
+          categoria: categoria,
+          peso: peso,
+          fabricante: fabricante
+        };
+        console.log(produto);
+          $.ajax({
+            url: adicionarProduto,
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(produto),
+            success: function (data) {
+              alert("Produto cadastrado!");
+              limpaCamposCadastro();
+              $("#cadastro-produtos").css('display','none');
+            },
+            error: function () {
+              alert("Não foi possível cadastrar o produto.");
+            },
+          });
+      }
+    }
+     
   })
     // cadastro de reposicao produto - POST
   $("#bt-cad-repo").on("click", function(event){
@@ -269,36 +339,49 @@ $(document).ready(function () {
     let vencimento = $("#vencimento-cad-reposicao").val();
     let status = $("#selecao-status-cad-reposicao option:selected").text();
 
-    let reposicao = {
-      id: 'null',
-      nome: nome,
-      categoria: categoria,
-      peso: peso,
-      fabricante: fabricante,
-      vencimento: vencimento,
-      status: status
-    };
-    console.log(reposicao);
-      $.ajax({
-        url: adicionarReposicao,
-        method: "POST",
-        contentType: "application/json",
-        data: JSON.stringify(reposicao),
-        success: function (data) {
-          alert("Reposição cadastrada!");
-          limpaCamposCadReposicao();
-        },
-        error: function () {
-          alert("Não foi possível cadastrar a reposição.");
-        },
-      });
+    if($("#selecao-produto-cad-reposicao option:selected").val()=== "0" ||
+       $("#selecao-categoria-cad-reposicao option:selected").val()=== "0" ||
+       $("#selecao-fabricante-cad-reposicao option:selected").val()=== "0" ||
+       $("#selecao-status-cad-reposicao option:selected").val()=== "0"){
+        alert("Por favor selecione todas as opções; produto, categoria, fabricante e status")
+    }else{
+      if($("#peso-cad-reposicao").val() === "" ||  $("#vencimento-cad-reposicao").val() === ""){
+        alert("Por favor preencha os campos peso e vencimento.");
+      }else{
+        let reposicao = {
+          id: 'null',
+          nome: nome,
+          categoria: categoria,
+          peso: peso,
+          fabricante: fabricante,
+          vencimento: vencimento,
+          status: status
+        };
+        console.log(reposicao);
+        $.ajax({
+          url: adicionarReposicao,
+          method: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(reposicao),
+          success: function (data) {
+            alert("Reposição cadastrada!");
+            limpaCamposCadReposicao();
+            $("#cadastro-reposicao").css('display','none');
+          },
+          error: function () {
+            alert("Não foi possível cadastrar a reposição.");
+          },
+        });
+      }
+    }
+    
   })
   
   // cadastro de usuario - POST
   $("#bt-add-usuario").on("click", function(event){
 
     let  nome = $("#nome-usuarios").val();
-    let senha = $("#senha-produto").val();
+    let senha = $("#senha-usuario").val();
     let confirmaSenha = $("#confirmacao-senha").val();
     let cargo = $("#selecao-cargo option:selected").text();
     let permissao = $("#selecao-permissao option:selected").text();
@@ -374,11 +457,48 @@ $(document).ready(function () {
     $("#selecao-permissao").prop('selectedIndex', 0);
     $("#selecao-status").prop('selectedIndex', 0);
     $("#nome-usuarios").val("");
-    $("#senha-produto").val("");
+    $("#senha-usuario").val("");
     $("#confirmacao-senha").val("");
   }
+
+  var usuario;
+
+  $("#bt-altera-usuario").on("click", function(event){
+    
+    //capturar os dados da tabela usuario
+    var linhasTabUsuario = tabelaUsuarios.getElementsByTagName("tr");
+
+	  var selecionados = tabelaUsuarios.getElementsByClassName("selecionado");
+    //Verificar se está selecionado
+    if(selecionados.length < 1){
+  	  alert("Selecione pelo menos uma linha");
+      return false;
+    }
+  
+    var usuarioAux = "";
+  
+  
+    for(var i = 0; i < selecionados.length; i++){
+  	  var selecionado = selecionados[i];
+      selecionado = selecionado.getElementsByTagName("td");
+      usuarioAux += "Id: " + selecionado[0].innerHTML + "\n"+ 
+             "Nome: " + selecionado[1].innerHTML + "\n"+ 
+             "Cargo: " + selecionado[2].innerHTML + "\n"+ 
+             "Permissões: " + selecionado[3].innerHTML + "\n"+
+             "Status: " + selecionado[4].innerHTML + "\n";
+      usuario ={
+        id:selecionado[0].innerHTML,
+        nome:selecionado[1].innerHTML,
+        cargo:selecionado[2].innerHTML,
+        permissões:selecionado[3].innerHTML,
+        status:selecionado[4].innerHTML
+      }
+    }
+      $("#id-att-usuarios").val(usuario.id);
+      $("#nome-att-usuarios").val(usuario.nome);
+  })
+
  
-}); //fim da funcao jquery
 
 var tabelaUsuarios = document.getElementById("tab-listagem-usuarios");
 
@@ -422,7 +542,7 @@ btnVisualizar.addEventListener("click", function(){
   }
   
   var usuarioAux = "";
-  var usuario;
+  
   
   for(var i = 0; i < selecionados.length; i++){
   	var selecionado = selecionados[i];
@@ -440,6 +560,10 @@ btnVisualizar.addEventListener("click", function(){
       status:selecionado[4].innerHTML
     }
   }
-  console.log(usuarioAux);
+  
+  var btVerDados = document.getElementById("bt-visualizar-usuario");
+  btVerDados.addEventListener("click",alert(usuarioAux) );
   
 });
+
+});//fim da funcao jquery

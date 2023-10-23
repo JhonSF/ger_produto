@@ -188,6 +188,9 @@ main{
     align-self: flex-end;
     margin-bottom: 10px;
 }
+#contagem-vencimentos{
+    font-weight: 600;
+}
 #contagem-produtos{
     font-weight: 600;
 }
@@ -257,6 +260,9 @@ tr:hover{
 
 #tab-listagem-usuarios tr.selecionado td{
     background-color: rgba(194, 224, 250, 0.658);
+}
+.atencao{
+    background-color: rgba(236, 61, 37, 0.76)
 }
 /*==========SECTION LISTAGEM PRODUTOS==========*/
 /*==========SECTION CADASTRO PRODUTOS==========*/
