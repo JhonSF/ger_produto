@@ -69,9 +69,9 @@ public class ProdutoController {
     @PostMapping("/adicionar-reposicao")
     public ResponseEntity<Reposicao_Produto_Entity> adiciona_Reposicao_Produto_Entity(@RequestBody Reposicao_Produto_Entity rp){
     
-        var novo_Produto = rp_Serv.cad_Produto_Reposicao(rp);
+        var novo_Reposicao = rp_Serv.cad_Produto_Reposicao(rp);
         
-        return new ResponseEntity(novo_Produto, HttpStatus.OK);
+        return new ResponseEntity(novo_Reposicao, HttpStatus.OK);
     }
     
     @GetMapping("/listar-reposicao-produtos")
