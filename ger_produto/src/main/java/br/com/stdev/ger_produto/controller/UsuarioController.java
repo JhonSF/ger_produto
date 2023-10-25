@@ -15,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -78,5 +80,13 @@ public class UsuarioController {
         List<Lista_Status_Usuario_Entity> lista_Status_Usuarios = su_Serv.lista_Status_Usuarios();
         
         return new ResponseEntity<>(lista_Status_Usuarios, HttpStatus.OK);
+    }
+    
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<Usuario_Entity> atualiza_Usuario(@PathVariable Integer id, @RequestBody Usuario_Entity u){
+    
+        var u_Atualizado = u_Serv.atualiza_Usuario(id, u);
+        
+        return new ResponseEntity<>(u_Atualizado, HttpStatus.OK);
     }
 }

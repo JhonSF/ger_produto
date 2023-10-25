@@ -13,6 +13,8 @@ $(document).ready(function () {
   const listaCargos = "http://localhost:8080/usuarios/listar-cargos";
   const listaPermissoes = "http://localhost:8080/usuarios/listar-permissoes";
   const listaStatusUsuario = "http://localhost:8080/usuarios/listar-status-usuario";
+  const atualizaUsuario = "http://localhost:8080/usuarios/atualizar/";// atualizar/id
+
   
  /* // verificacao de login
   $("#bt-acessar").on("click", function(event){
@@ -438,6 +440,107 @@ $(document).ready(function () {
    }
   })
 
+  // atualização de usuario INATIVACAO - PUT
+  $("#bt-inativo-usuario").on("click", function(event){
+
+    var usuario;
+
+    //capturar os dados da tabela usuario
+    var tabelaUsuarios = document.getElementById("tab-listagem-usuarios");
+    var linhasTabUsuario = tabelaUsuarios.getElementsByTagName("tr");
+
+	  var selecionados = tabelaUsuarios.getElementsByClassName("selecionado");
+    //Verificar se está selecionado
+    if(selecionados.length < 1){
+  	  alert("Selecione pelo menos uma linha");
+      return false;
+    }
+  
+    var usuarioAux = "";
+    var senha = prompt("Digite a senha do Usuario.");
+
+    for(var i = 0; i < selecionados.length; i++){
+  	  var selecionado = selecionados[i];
+      selecionado = selecionado.getElementsByTagName("td");
+      usuarioAux += "Id: " + selecionado[0].innerHTML + "\n"+ 
+             "Nome: " + selecionado[1].innerHTML + "\n"+ 
+             "Cargo: " + selecionado[2].innerHTML + "\n"+ 
+             "Permissões: " + selecionado[3].innerHTML + "\n"+
+             "Status: " + selecionado[4].innerHTML + "\n";
+      usuario ={
+        id:selecionado[0].innerHTML,
+        nome:selecionado[1].innerHTML,
+        senha:senha,
+        cargo:selecionado[2].innerHTML,
+        permissoes:selecionado[3].innerHTML,
+        status:"Inativo"
+      }
+    }
+
+    $.ajax({
+      url: atualizaUsuario+usuario.id,
+      method: "PUT",
+      contentType: "application/json",
+      data: JSON.stringify(usuario),
+      success: function (data) {
+        alert("Dados do usuario Atualizado\n atualize a lista.");
+      },
+      error: function () {
+        alert("Não foi possível atualizar os dados usuario.");
+      },
+    });
+  })
+  // atualização de usuario ATIVANDO - PUT
+  $("#bt-ativo-usuario").on("click", function(event){
+
+    var usuario;
+
+    //capturar os dados da tabela usuario
+    var tabelaUsuarios = document.getElementById("tab-listagem-usuarios");
+    var linhasTabUsuario = tabelaUsuarios.getElementsByTagName("tr");
+
+	  var selecionados = tabelaUsuarios.getElementsByClassName("selecionado");
+    //Verificar se está selecionado
+    if(selecionados.length < 1){
+  	  alert("Selecione pelo menos uma linha");
+      return false;
+    }
+  
+    var usuarioAux = "";
+    var senha = prompt("Digite a senha do Usuario.");
+
+    for(var i = 0; i < selecionados.length; i++){
+  	  var selecionado = selecionados[i];
+      selecionado = selecionado.getElementsByTagName("td");
+      usuarioAux += "Id: " + selecionado[0].innerHTML + "\n"+ 
+             "Nome: " + selecionado[1].innerHTML + "\n"+ 
+             "Cargo: " + selecionado[2].innerHTML + "\n"+ 
+             "Permissões: " + selecionado[3].innerHTML + "\n"+
+             "Status: " + selecionado[4].innerHTML + "\n";
+      usuario ={
+        id:selecionado[0].innerHTML,
+        nome:selecionado[1].innerHTML,
+        senha:senha,
+        cargo:selecionado[2].innerHTML,
+        permissoes:selecionado[3].innerHTML,
+        status:"Ativo"
+      }
+    }
+
+    $.ajax({
+      url: atualizaUsuario+usuario.id,
+      method: "PUT",
+      contentType: "application/json",
+      data: JSON.stringify(usuario),
+      success: function (data) {
+        alert("Dados do usuario Atualizado\n atualize a lista.");
+      },
+      error: function () {
+        alert("Não foi possível atualizar os dados usuario.");
+      },
+    });
+  })
+
   function limpaCamposCadastro(){
     $("#nome-cad-produto").val("");
     $("#selecao-categoria-cad-produto").prop('selectedIndex', 0);
@@ -466,6 +569,7 @@ $(document).ready(function () {
   $("#bt-altera-usuario").on("click", function(event){
     
     //capturar os dados da tabela usuario
+    var tabelaUsuarios = document.getElementById("tab-listagem-usuarios");
     var linhasTabUsuario = tabelaUsuarios.getElementsByTagName("tr");
 
 	  var selecionados = tabelaUsuarios.getElementsByClassName("selecionado");
@@ -494,8 +598,7 @@ $(document).ready(function () {
         status:selecionado[4].innerHTML
       }
     }
-      $("#id-att-usuarios").val(usuario.id);
-      $("#nome-att-usuarios").val(usuario.nome);
+      
   })
 
  

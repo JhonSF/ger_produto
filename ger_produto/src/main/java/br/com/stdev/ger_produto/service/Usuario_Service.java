@@ -33,7 +33,7 @@ public class Usuario_Service {
         u.setCargo(u_Request.getCargo());
         u.setPermissoes(u_Request.getPermissoes());
         u.setStatus(u_Request.getStatus());
-
+        u_Rep.save(u);
         return u;
     }
 
